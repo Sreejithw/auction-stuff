@@ -11,13 +11,15 @@
     "db:studio": "npx drizzle-kit studio --config=drizzle.config.ts"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.2",
     "@radix-ui/react-slot": "^1.1.0",
     "@t3-oss/env-nextjs": "^0.10.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "drizzle-orm": "^0.32.0",
+    "drizzle-orm": "^0.32.2",
     "lucide-react": "^0.427.0",
     "next": "14.2.5",
+    "next-auth": "^5.0.0-beta.20",
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
