@@ -19,29 +19,19 @@ export default async function HomePage() {
   if(!user) return null;
 
   return (
-    <main className="container mx-auto py-12">
-      {
-        session ? <SignOut /> : <SignIn />
-      }
-      { session?.user?.name}
-      <form action={async(formData: FormData) => {
-        'use server'
-        // const bid = formData.get('bid') as string;
-        await database.insert(items).values({
-          name: formData.get('name') as string,
-          userId: session?.user?.id!
-        });
-        revalidatePath("/");
-      }}>
-        <Input name="name" placeholder="Name Item For Auction" />
-        <Button type="submit">Post Item</Button>
-      </form>
-
-      {
-        itemsList.map(item => (
-          <div key={item.id}>{item.name}</div>
-        ))
-      }
+    <main className="container mx-auto py-12 space-y-8">
+      <h1 className="text-4xl font-bold"> Items For Sale </h1>
+      <div className="grid grid-cols-4 gap-8">
+        {
+          itemsList.map(item => (
+            <div key={item.id} className="border p-8 rounded-xl">
+              {item.name}
+              
+              Starting Price: ${item.startingPrice / 100}
+            </div>
+          ))
+        }
+      </div>
     </main>
   );
 }

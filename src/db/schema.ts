@@ -57,36 +57,37 @@ export const users = pgTable("acs_user", {
     })
   )
    
-  export const authenticators = pgTable(
-    "acs_authenticator",
-    {
-      credentialID: text("credentialID").notNull().unique(),
-      userId: text("userId")
-        .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
-      providerAccountId: text("providerAccountId").notNull(),
-      credentialPublicKey: text("credentialPublicKey").notNull(),
-      counter: integer("counter").notNull(),
-      credentialDeviceType: text("credentialDeviceType").notNull(),
-      credentialBackedUp: boolean("credentialBackedUp").notNull(),
-      transports: text("transports"),
-    },
-    (authenticator) => ({
-      compositePK: primaryKey({
-        columns: [authenticator.userId, authenticator.credentialID],
-      }),
-    })
-  )
+  // export const authenticators = pgTable(
+  //   "acs_authenticator",
+  //   {
+  //     credentialID: text("credentialID").notNull().unique(),
+  //     userId: text("userId")
+  //       .notNull()
+  //       .references(() => users.id, { onDelete: "cascade" }),
+  //     providerAccountId: text("providerAccountId").notNull(),
+  //     credentialPublicKey: text("credentialPublicKey").notNull(),
+  //     counter: integer("counter").notNull(),
+  //     credentialDeviceType: text("credentialDeviceType").notNull(),
+  //     credentialBackedUp: boolean("credentialBackedUp").notNull(),
+  //     transports: text("transports"),
+  //   },
+  //   (authenticator) => ({
+  //     compositePK: primaryKey({
+  //       columns: [authenticator.userId, authenticator.credentialID],
+  //     }),
+  //   })
+  // )
   
-export const auctions = pgTable('acs_auctions',{
-    id: serial("id").primaryKey(),
-});
+  export const auctions = pgTable('acs_auctions',{
+      id: serial("id").primaryKey(),
+  });
 
 
-export const items = pgTable('acs_items',{
-    id: serial("id").primaryKey(),
-    userId: text("userId")
-        .notNull()
-        .references(() => users.id, { onDelete: "cascade" }),
-    name: text("name").notNull(),
-})
+  export const items = pgTable('acs_items',{
+      id: serial("id").primaryKey(),
+      userId: text("userId")
+          .notNull()
+          .references(() => users.id, { onDelete: "cascade" }),
+      name: text("name").notNull(),
+      startingPrice: integer("startingPrice").notNull().default(0),
+  })
