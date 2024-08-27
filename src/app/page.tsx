@@ -1,11 +1,6 @@
 import { database } from "@/db/database";
-import { auctions, items } from "@/db/schema";
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input";
-import { revalidatePath } from "next/cache";
-import SignIn from "@/components/sign-in";
-import { SignOut } from "@/components/sign-out";
 import { auth } from "@/auth";
+import { AuctionItemCard } from "./auction-item";
 
 export default async function HomePage() {
 
@@ -24,11 +19,7 @@ export default async function HomePage() {
       <div className="grid grid-cols-4 gap-8">
         {
           itemsList.map(item => (
-            <div key={item.id} className="border p-8 rounded-xl">
-              {item.name}
-              
-              Starting Price: ${item.startingPrice / 100}
-            </div>
+            <AuctionItemCard key={item.id} item={item} />
           ))
         }
       </div>
