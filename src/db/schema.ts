@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { boolean, integer, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters"
 
@@ -78,19 +79,33 @@ export const users = pgTable("acs_user", {
   //   })
   // )
   
+  
+  
+  export const items = pgTable('acs_items',{
+    id: serial("id").primaryKey(),
+    userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+    name: text("name").notNull(),
+    fileKey: text("fileKey").notNull(),
+    currentBid: integer("currentBid").notNull().default(0), 
+    startingPrice: integer("startingPrice").notNull().default(0),
+    auctionInterval: integer("auactionInterval").notNull().default(100)
+  });
+  
   export const auctions = pgTable('acs_auctions',{
-      id: serial("id").primaryKey(),
+    id: serial("id").primaryKey(),
+    amount: integer("amount").notNull(),
+    itemId: serial("itemId").notNull().references(() => items.id, { onDelete: "cascade" }),
+    userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+    timestamp: timestamp("timestamp", { mode: "date" }).notNull(),
   });
 
-
-  export const items = pgTable('acs_items',{
-      id: serial("id").primaryKey(),
-      userId: text("userId")
-          .notNull()
-          .references(() => users.id, { onDelete: "cascade" }),
-      name: text("name").notNull(),
-      fileKey: text("fileKey").notNull(),
-      startingPrice: integer("startingPrice").notNull().default(0),
-  })
+  export const usersRelations = relations(auctions, ({ one }) => ({
+    user: one(users, {
+      fields: [auctions.userId],
+      references: [users.id],  
+    })
+  }));
 
   export type Item = typeof items.$inferSelect;

@@ -4,12 +4,13 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input";
 import { createUploadUrlAction, postAuctionAction } from "./actions";
+import { pageTitleStyled } from "@/styles";
 
 export default function CreateAuctionPage() {
 
   return (
-    <main className="container mx-auto py-12 space-y-8">
-      <h1 className="text-4xl font-bold">
+    <main className="space-y-8">
+      <h1 className={pageTitleStyled}>
         Post An Item For Auction 
       </h1>
       <form 

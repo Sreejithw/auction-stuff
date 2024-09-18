@@ -3,6 +3,10 @@ import "./globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils";
 import { Header } from "./header";
+// Required CSS import, unless you're overriding the styling
+import "@knocklabs/react/dist/index.css";
+import { NotificationProvider } from "./notif-providers";
+import { SessionProvider } from "next-auth/react";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,8 +29,14 @@ export default function RootLayout({
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable
         )}>
-        <Header />
-        {children}
+        <SessionProvider>
+          <NotificationProvider>
+            <Header />
+            <div className="container mx-auto py-12">
+              {children}
+            </div>
+          </NotificationProvider>
+        </SessionProvider>
       </body>
     </html>
   );
