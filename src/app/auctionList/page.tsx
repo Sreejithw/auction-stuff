@@ -21,8 +21,8 @@ export default async function AuctionListPage() {
   const hasBids = itemsList.length > 0;
 
   return (
-    <main className="space-y-8">
-      <h1 className={pageTitleStyled}> Your Current Bids </h1>
+    <div className="space-y-8 p-8">
+      <h1 className={pageTitleStyled}> Your Current Auctions </h1>
         {
             hasBids ? (
             <div className="grid grid-cols-4 gap-8">
@@ -38,6 +38,6 @@ export default async function AuctionListPage() {
                 <NoDataPage />
             )
         }
-    </main>
+    </div>
   );
 }

@@ -1,14 +1,17 @@
-import { Button } from "@/components/ui/button";
-import { pageTitleStyled } from "@/styles";
-import { formatAndConvertCurrency } from "@/util/currency";
-import { getImgUrl } from "@/util/files";
-import { formatDistanceStrict } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { pageTitleStyled } from "@/styles";
+import { getImgUrl } from "@/util/files";
+import { formatDistanceStrict } from "date-fns";
 import { createAuctionsAction } from "./actions";
-import { getAuctionsForItem } from "@/controller/auctions";
-import { getAuctionItems } from "@/controller/auctionItems";
+import { getAuctionsForItem } from "@/db/controller/auctions";
+import { getAuctionItems } from "@/db/controller/auctionItems";
 import { auth } from "@/auth";
+import { Badge } from "@/components/ui/badge";
+import { isBidOver } from "@/util/utils";
+import BidForm from "./bid-form";
+import ItemInfo from "./item-info";
 
 
 function formatTimestamp(timestamp: Date){
@@ -38,71 +41,29 @@ export default async function BidItemPage({ params: { itemId }} : { params: { it
             </div>
         );
     }
-
-    const allBids = await getAuctionsForItem(item.id);
-
-    const hasBids = allBids.length > 0;
-
+    const canPlaceBids = session && item.userId !== session.user.id && !isBidOver(item);
+    const auctionDetails = await getAuctionsForItem(item.id);
+    const hasBids = auctionDetails.length > 0;
 
     return (
         <main className="container mx-auto py-12 space-y-8">
             <div className="flex gap-8">
                 <div className="flex flex-col gap-6">
-                    <h1 className={pageTitleStyled}><span className="font-normal">Auction for</span> {item.name}</h1>
+                    {
+                        isBidOver(item) && (
+                            <Badge className="w-fit" variant="destructive">Bidding Over</Badge>
+                        )
+                    }
                     <Image 
                         src={getImgUrl(item.fileKey)}
                         alt={item.name}
-                        width={400}
-                        height={400}
+                        width={600}
+                        height={600}
                     />
-                    <div className="text-xl space-y-4">
-                        <div>
-                            Current Bid at <span className="font-bold text-red-600">${formatAndConvertCurrency(item.currentBid)}</span>
-                        </div>
-                        <div>
-                            Starting price at <span className="font-bold">${formatAndConvertCurrency(item.startingPrice)}</span>
-                        </div>
-                        <div>Bid Interval <span className="font-bold">${formatAndConvertCurrency(item.auctionInterval)}</span></div>
-                    </div>
                 </div>
                 <div className="space-y-4 flex-1">
-                    <div className="flex justify-between">
-                        <h2 className="text-2xl font-bold">Current Bids</h2>
-                        { session && (
-                            <form action={createAuctionsAction.bind(null, item.id)}>
-                                <Button>Place your Bid</Button>
-                            </form>
-                        )}
-                    </div>
-                    {
-                        hasBids ? (
-                            <ul className="space-y-4">
-                                { 
-                                    allBids.map((bid) => (
-                                            <li key={bid.id} className="bg-gray-100 rounded-xl p-8">
-                                                <div className="flex gap-4">
-                                                    <div>
-                                                        <span className="font-bold">${formatAndConvertCurrency(bid.amount)}</span> by{" "}
-                                                        <span className="font-bold">{bid.user.name}</span>
-                                                    </div>
-                                                    <div className="">{formatTimestamp(bid.timestamp)}</div>
-                                                </div>
-                                            </li>
-                                    ))
-                                }
-                            </ul>
-                        ) : (
-                            <div className="flex flex-col items-center gap-8 bg-gray-100 rounded-xl p-12">
-                                <Image src="/emptyData.svg" width="200" height="200" alt="NoBids" />
-                                <h2 className="text-2xl">No Bids yet</h2>
-                                { session && (
-                                    <form action={createAuctionsAction.bind(null,item.id)}>
-                                        <Button>Place your Bid</Button>
-                                    </form>
-                                )}
-                            </div>
-                        )
-                    }
+                    <ItemInfo item={item} />
+                    <BidForm item={item} canPlaceBids={canPlaceBids} createAuctionsAction={createAuctionsAction} />
                 </div>
             </div>
         </main>

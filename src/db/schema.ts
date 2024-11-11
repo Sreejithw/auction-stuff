@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { boolean, integer, pgTable, primaryKey, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, primaryKey, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters"
 
 export const users = pgTable("acs_user", {
@@ -87,10 +87,17 @@ export const users = pgTable("acs_user", {
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
     name: text("name").notNull(),
+    type: varchar('type', { length: 255 }),
+    location: text("location").notNull(),
+    model: text("model").notNull(),
+    description: text("description").notNull(),
     fileKey: text("fileKey").notNull(),
     currentBid: integer("currentBid").notNull().default(0), 
     startingPrice: integer("startingPrice").notNull().default(0),
-    auctionInterval: integer("auactionInterval").notNull().default(100)
+    auctionInterval: integer("auactionInterval").notNull().default(100),
+    endDate: timestamp("endDate", { mode: "date" }).notNull(),
+    totalBids: integer("totalBids").default(0),
+    specs: text('specs')
   });
   
   export const auctions = pgTable('acs_auctions',{
