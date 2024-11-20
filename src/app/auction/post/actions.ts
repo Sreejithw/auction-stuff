@@ -35,8 +35,6 @@ export async function postAuctionAction({
         throw new Error("Unauthorized");
     }
 
-    console.log(startingPrice);
-
     await database.insert(items).values({
         name,
         location,

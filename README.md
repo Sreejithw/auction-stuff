@@ -34,3 +34,87 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+```
+auction-stuff
+├─ .eslintrc.json
+├─ components.json
+├─ docker-compose.yml
+├─ drizzle.config.ts
+├─ LICENSE
+├─ next.config.mjs
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ public
+│  ├─ background-1.jpg
+│  ├─ emptyData.svg
+│  ├─ logo.png
+│  ├─ logoMain.png
+│  ├─ next.svg
+│  └─ vercel.svg
+├─ README.md
+├─ src
+│  ├─ app
+│  │  ├─ api
+│  │  │  ├─ auth
+│  │  │  │  └─ [...nextauth]
+│  │  │  │     └─ route.ts
+│  │  │  └─ chatclient.ts
+│  │  ├─ auction
+│  │  │  ├─ post
+│  │  │  │  ├─ actions.ts
+│  │  │  │  ├─ equipment-form.tsx
+│  │  │  │  └─ page.tsx
+│  │  │  └─ [itemId]
+│  │  │     ├─ actions.ts
+│  │  │     ├─ bid-form.tsx
+│  │  │     ├─ item-info.tsx
+│  │  │     └─ page.tsx
+│  │  ├─ auction-item.tsx
+│  │  ├─ auctionList
+│  │  │  ├─ no-data.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ favicon.ico
+│  │  ├─ globals.css
+│  │  ├─ header.tsx
+│  │  ├─ layout.tsx
+│  │  ├─ notif-providers.tsx
+│  │  ├─ page.tsx
+│  │  └─ server
+│  │     └─ auctionItems.ts
+│  ├─ auth.ts
+│  ├─ components
+│  │  ├─ common
+│  │  │  ├─ chat-bot.tsx
+│  │  │  └─ countdown-timer.tsx
+│  │  ├─ date-picker.tsx
+│  │  ├─ sign-in.tsx
+│  │  ├─ sign-out.tsx
+│  │  └─ ui
+│  │     ├─ badge.tsx
+│  │     ├─ button.tsx
+│  │     ├─ calendar.tsx
+│  │     ├─ card.tsx
+│  │     ├─ input.tsx
+│  │     ├─ popover.tsx
+│  │     ├─ select.tsx
+│  │     └─ textarea.tsx
+│  ├─ db
+│  │  ├─ controller
+│  │  │  ├─ auctionItems.ts
+│  │  │  └─ auctions.ts
+│  │  ├─ database.ts
+│  │  └─ schema.ts
+│  ├─ env.ts
+│  ├─ lib
+│  │  ├─ s3.ts
+│  │  └─ utils.ts
+│  ├─ styles.ts
+│  └─ util
+│     ├─ files.ts
+│     └─ utils.ts
+├─ tailwind.config.ts
+└─ tsconfig.json
+
+```

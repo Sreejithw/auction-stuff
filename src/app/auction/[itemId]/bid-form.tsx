@@ -22,7 +22,6 @@ const BidForm: React.FC<BidFormProps> = ({ item, canPlaceBids, createAuctionsAct
     const [minimumBid, setMinimumBid] = useState(item.currentBid + 1);
     const [bidAmount, setBidAmount] = useState(item.currentBid + 1);
     const [errorMessage, setErrorMessage] = useState("");
-    // console.log(canPlaceBids);
 
     const handleBidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Number(e.target.value);

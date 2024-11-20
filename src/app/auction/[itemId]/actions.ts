@@ -54,7 +54,7 @@ export async function createAuctionsAction(itemId: number, bidAmount: number){
     const recipients: {
         id: string;
         name: string;
-        email: string;
+        email: string | null;
     }[] = [];
 
     for(const auction of curentAuctions){

@@ -4,17 +4,18 @@ import { AuctionItemCard } from "./auction-item";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+import ChatBot from "@/components/common/chat-bot";
 
 export default async function HomePage() {
 
   const session = await auth();
 
   const itemsList = await database.query.items.findMany();
-  // if (!session) return null;
+  if (!session) return null;
 
-  // const user = session.user;
+  const user = session.user;
 
-  // if(!user) return null;
+  if(!user) return null;
 
   return (
     <main className="space-y-8">
@@ -97,6 +98,7 @@ export default async function HomePage() {
             }
           </div>
         </div>
+        <ChatBot user={user} />
     </main>
   );
 }
